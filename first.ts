@@ -139,9 +139,7 @@ function c(): void {
   return;
 }
 // 매개변수와 매서드는 return값 가능
-function aa(
-  callback: () => void /** 리턴값을 사용하지 않겠다 */
-): void /** 리턴 값 없어야함 */ {}
+function aa(callback: () => void /** 리턴값을 사용하지 않겠다 */): void /** 리턴 값 없어야함 */ {}
 // callback은 void인데 리턴값이 있어도 된다
 aa(() => {
   return "3";
@@ -350,6 +348,8 @@ plus("1", "2");
 interface Axios {
   get(): void;
 }
+// axios를 쓰게 되면 response를 추가
+// js에도 남아있으면서 interface와 비슷한 기능
 class CustomError extends Error {
   response?: {
     data: any;
@@ -361,10 +361,19 @@ declare const axios: Axios;
   try {
     await axios.get();
   } catch (err) {
+    // as 는 unknown일 때 어쩔 수 없이 사용
     if (err instanceof CustomError) {
-      const customError = err;
-      console.error(customError.response?.data);
-      customError.response?.data;
+      // const customError = err as CustomError;
+      // const customError = err;
+      // console.error(customError.response?.data);
+      // customError.response?.data;
+      console.error(err.response?.data);
+      err.response?.data;
+      // 타입가드로 좁혀놨으면 as 안써도 됨
     }
   }
 })();
+
+// 공변성 반공변성
+// 리턴값은 더 넓은 타입이면 대입 가능
+// 매개변수는 더 좁은 타입이면 대입 가능

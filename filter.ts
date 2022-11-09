@@ -1,17 +1,10 @@
 interface Array<T> {
-  filter<S extends T>(
-    predicate: (value: T, index: number, array: T[]) => value is S,
-    thisArg?: any
-  ): S[];
-  filter(
-    predicate: (value: T, index: number, array: T[]) => unknown,
-    thisArg?: any
-  ): T[];
+  filter<S extends T>(predicate: (value: T, index: number, array: T[]) => value is S, thisArg?: any): S[];
+  filter(predicate: (value: T, index: number, array: T[]) => unknown, thisArg?: any): T[];
 }
 
 // 위와 같이 만들어서 type을 1개만 나오게 좁힌다
-const predicate = (value: string | number): value is string =>
-  typeof value === "string";
+const predicate = (value: string | number): value is string => typeof value === "string";
 // 왜 number | number가 나오는가?
 const filtered = ["1", 2, "3", 4, "5"].filter(predicate); // ['1', '3', '5'] string[]
 
