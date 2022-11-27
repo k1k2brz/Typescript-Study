@@ -80,3 +80,56 @@ const newOwo: PP<Profiles> = {
 //   name: "name",
 //   age: 30,
 // };
+
+interface Po {
+  name: string;
+  age: number;
+  married: boolean;
+}
+
+type poName = Po["name"];
+
+// Po['name' | 'age']가 안되므로   T[S] 이건 안되는 쿼리
+type PA<T, S extends keyof T> = {
+  // 'name' | 'age'는 Po의 속성이어야 하므로
+  // [S in keyof T]?: T[S];
+  [Key in S]: T[Key];
+};
+
+const yeon: Po = {
+  name: "name",
+  age: 29,
+  married: false,
+};
+
+const newYeon: PA<Po, "name" | "age"> = {
+  name: "name",
+  age: 29,
+};
+
+//
+
+interface Obj {
+  [key: string]: number;
+}
+
+type Records<T extends keyof any, S> = {
+  // 객체의 key는 string이나 number나 symbol만 올 수 있기 때문에 extends keyof any
+  [key in T]: S;
+};
+
+const rcd: Records<string, number> = { a: 3, b: 5, c: 7 };
+
+// infet타입 분석
+function zip2(x: number, y: string, z: boolean): { x: number; y: string; z: boolean } {
+  return { x, y, z };
+}
+
+// 앞 함수제한 + T는 무조건 함수여야 한다
+// 뒤
+type P_infer<T extends (...args: any) => any> = T extends (...args: infer A) => any ? A : never;
+type R_infer<T extends (...args: any) => any> = T extends (...args: any) => infer A ? A : never;
+type Parameter = P_infer<typeof zip2>;
+type Rett = ReturnType<typeof zip2>;
+// index로 number string boolean 타입에 접근 가능
+type Fir = Parameter[0];

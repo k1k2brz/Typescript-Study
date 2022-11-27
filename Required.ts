@@ -6,7 +6,7 @@ interface Profile {
 }
 type Name2 = Profile["name"];
 
-// -? optional을 전부 빼라
+// -? 기존 optional을 전부 빼라 (modifier)
 type R2<T> = {
   [Key in keyof T]-?: T[Key];
 };

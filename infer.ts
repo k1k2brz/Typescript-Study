@@ -1,22 +1,30 @@
 //infer (추론) - 매개변수 자리 추론
 
-function zip(
-  x: number,
-  y: string,
-  z: boolean
-): { x: number; y: string; z: boolean } {
+function zip(x: number, y: string, z: boolean): { x: number; y: string; z: boolean } {
   return { x, y, z };
 }
 
-type P<T extends (...args: any) => any> = T extends (...args: infer A) => any
-  ? A
-  : never;
-type Rz<T extends (...args: any) => any> = T extends (...args: any) => infer A
-  ? A
-  : never;
+type P<T extends (...args: any) => any> = T extends (...args: infer A) => any ? A : never;
+type Rz<T extends (...args: any) => any> = T extends (...args: any) => infer A ? A : never;
 type Params = Parameters<typeof zip>;
 type Ret = ReturnType<typeof zip>;
 type Frist = Params[0];
+
+class A {
+  a: string;
+  b: number;
+  c: boolean;
+  constructor(a: string, b: number, c: boolean) {
+    this.a = a;
+    this.b = b;
+    this.c = c;
+  }
+}
+const cc = new A("123", 456, true);
+type CC = ConstructorParameters<typeof A>; // typeof 클래스가 생성자
+type II = InstanceType<typeof A>;
+
+const a0: A = new A("123", 456, true); // 인스턴스(new)
 
 //
 const p1 = Promise.resolve(1)

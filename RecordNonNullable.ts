@@ -5,6 +5,7 @@
 type Re<T extends keyof any, S> = {
   [Key in T]: S;
 };
+// 아무 객체나 넘어오게 하면 된다
 
 const ao: Record<string, number> = { a: 3, b: 5, c: 7 };
 
